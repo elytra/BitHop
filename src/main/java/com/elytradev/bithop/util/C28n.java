@@ -2,6 +2,7 @@ package com.elytradev.bithop.util;
 
 import java.util.List;
 
+import com.elytradev.bithop.BitHop;
 import com.google.common.base.Optional;
 import com.ibm.icu.text.PluralRules;
 

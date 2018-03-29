@@ -1,5 +1,6 @@
 package com.elytradev.bithop.item;
 
+import com.elytradev.bithop.BitHop;
 import com.elytradev.bithop.util.C28n;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.creativetab.CreativeTabs;

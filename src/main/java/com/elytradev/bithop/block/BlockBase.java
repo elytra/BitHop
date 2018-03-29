@@ -1,5 +1,6 @@
 package com.elytradev.bithop.block;
 
+import com.elytradev.bithop.BitHop;
 import com.elytradev.bithop.util.C28n;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -32,7 +33,7 @@ public class BlockBase extends Block implements IBlockBase {
     }
 
     public void registerItemModel(Item itemBlock) {
-        BetterBoilers.proxy.registerItemRenderer(itemBlock, 0, name);
+        BitHop.proxy.registerItemRenderer(itemBlock, 0, name);
     }
 
     public Item createItemBlock() {

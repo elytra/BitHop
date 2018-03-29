@@ -1,5 +1,7 @@
 package com.elytradev.bithop.client;
 
+import com.elytradev.bithop.BitHop;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.creativetab.CreativeTabs;
 
