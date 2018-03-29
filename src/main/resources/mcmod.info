@@ -1,0 +1,18 @@
+[
+  {
+    "modid": "bithop",
+    "name": "BitHop",
+    "description": "Lag-free vanilla-style hoppers!",
+    "version": "${version}",
+    "mcversion": "${mcversion}",
+    "url": "",
+    "updateUrl": "",
+    "authorList": [
+      "b0undarybreaker"
+    ],
+    "credits": "",
+    "logoFile": "",
+    "screenshots": [],
+    "dependencies": []
+  }
+]
