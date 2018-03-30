@@ -36,6 +36,17 @@ public class BlockBitHop extends BlockTileEntity<TileEntityBitHopKt> {
         return new BlockStateContainer(this);
     }
 
+    @Override
+    public boolean isOpaqueCube(IBlockState state) {
+        return false;
+    }
+
+    @Override
+    public boolean isFullCube(IBlockState state)
+    {
+        return false;
+    }
+
 //    public int getMetaFromState(IBlockState state){
 //        return state.getValue(IS_BRASS) ? 1 : 0;
 //    }

@@ -8,7 +8,7 @@
       "model": "bithop:bithop_down"
     },
     "inventory": {
-      "model": "bithop:bithop_down"
+      "model": "bithop:bithop_item"
     }
   }
 }
