@@ -11,10 +11,10 @@ import net.minecraftforge.registries.IForgeRegistry;
 
 public class ModBlocks {
 
-    // public static final BlockBoiler BOILER = new BlockBoiler(Material.IRON, "boiler");
+    public static final BlockBitHop BITHOP = new BlockBitHop(Material.IRON, "bithop");
 
     public static IBlockBase[] allBlocks = {
-            // BOILER, VALVE, VENT, PUMP, FIREBOX, HATCH, BOILER_CONTROLLER, CHAMBER, CAP, ROTOR, GASKET, PRESSURE_VALVE, POWER_TAP, TURBINE_CONTROLLER
+             BITHOP
     };
 
     public static void register(IForgeRegistry<Block> registry) {
@@ -23,7 +23,7 @@ public class ModBlocks {
             registry.register(block.toBlock());
         }
 
-        // GameRegistry.registerTileEntity(BOILER.getTileEntityClass(), BOILER.getRegistryName().toString());
+         GameRegistry.registerTileEntity(BITHOP.getTileEntityClass(), BITHOP.getRegistryName().toString());
 
     }
 
