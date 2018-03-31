@@ -9,6 +9,11 @@
     },
     "inventory": {
       "model": "bithop:bithop_item"
-    }
+    },
+    "facing=down": { "model": "bithop_down" },
+    "facing=north": { "model": "bithop_side" },
+    "facing=south": { "model": "bithop_side", "y": 180 },
+    "facing=west": { "model": "bithop_side", "y": 270 },
+    "facing=east": { "model": "bithop_side", "y": 90 }
   }
 }
