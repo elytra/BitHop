@@ -23,12 +23,11 @@ public class BitHopRecipes {
 
         // Crafting bench recipes
 
-        // recipe(r, new ShapedOreRecipe(new ResourceLocation("bithop:blocks"), new ItemStack(ModBlocks.VALVE, 1),
-        //         " u ", "ibi", " u ",
-        //         'b', new ItemStack(ModBlocks.BOILER),
-        //         'i', new ItemStack(Items.IRON_INGOT),
-        //         'u', new ItemStack(Items.BUCKET)
-        // ));
+         recipe(r, new ShapedOreRecipe(new ResourceLocation("bithop:blocks"), new ItemStack(ModBlocks.BITHOP, 1),
+                 "ici", " i ",
+                 'c', new ItemStack(Blocks.CHEST),
+                 'i', new ItemStack(Items.IRON_INGOT)
+         ));
 
     }
 
