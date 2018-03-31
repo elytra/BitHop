@@ -28,16 +28,11 @@ public class BlockBitHop extends BlockTileEntity<TileEntityBitHopKt> {
             return p_apply_1_ != EnumFacing.UP;
         }
     });
-    public static EnumFacing getFacing(int meta)
-    {
-        return EnumFacing.getFront(meta & 7);
-    }
-
-//    public static final PropertyBool ENABLED = PropertyBool.create("enabled");
+    public static int FACE = 3;
 
     public BlockBitHop(Material material, String name) {
         super(material, name);
-        this.setDefaultState(blockState.getBaseState().withProperty(FACING, EnumFacing.DOWN));
+        this.setDefaultState(blockState.getBaseState());
 
         setCreativeTab(BitHop.creativeTab);
     }
@@ -54,7 +49,7 @@ public class BlockBitHop extends BlockTileEntity<TileEntityBitHopKt> {
 
     @Override
     public BlockStateContainer createBlockState(){
-        return new BlockStateContainer(this);
+        return new BlockStateContainer(this, FACING);
     }
 
     @Override
@@ -69,18 +64,17 @@ public class BlockBitHop extends BlockTileEntity<TileEntityBitHopKt> {
     }
 
     @Override
-    public IBlockState getStateFromMeta(int meta)
-    {
-        return this.getDefaultState().withProperty(FACING, getFacing(meta));
+    public int getMetaFromState(IBlockState state){
+        int meta = 0;
+        meta |= state.getValue(FACING).getIndex();
+        return meta;
     }
 
-    public int getMetaFromState(IBlockState state)
-    {
-        int i = 0;
-        i = i | ((EnumFacing)state.getValue(FACING)).getIndex();
-        i |= 8;
-
-        return i;
+    @Override
+    public IBlockState getStateFromMeta(int meta){
+        int facebits = meta & FACE;
+        EnumFacing facing = EnumFacing.getHorizontal(facebits);
+        return blockState.getBaseState().withProperty(FACING, facing);
     }
 
     public IBlockState getStateForPlacement(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer)
