@@ -88,4 +88,9 @@ public class BlockBitHop extends BlockTileEntity<TileEntityBitHopKt> {
 
         return this.getDefaultState().withProperty(FACING, enumfacing);
     }
+
+    public static EnumFacing getFacing(int meta)
+    {
+        return EnumFacing.getFront(meta & 7);
+    }
 }
