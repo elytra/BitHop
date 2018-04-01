@@ -1,11 +1,20 @@
 package com.elytradev.bithop.tile
 
+import com.elytradev.bithop.block.BlockBitHop
 import com.elytradev.bithop.block.ModBlocks
 import com.elytradev.concrete.inventory.ConcreteItemStorage
 import com.elytradev.concrete.inventory.IContainerInventoryHolder
 import com.elytradev.concrete.inventory.ValidatedInventoryView
+import net.minecraft.block.BlockChest
+import net.minecraft.inventory.IInventory
 import net.minecraft.tileentity.TileEntity
+import net.minecraft.tileentity.TileEntityChest
+import net.minecraft.tileentity.TileEntityHopper
+import net.minecraft.util.EntitySelectors
 import net.minecraft.util.EnumFacing
+import net.minecraft.util.math.AxisAlignedBB
+import net.minecraft.util.math.BlockPos
+import net.minecraft.world.World
 
 val CAPACITY = 5
 
@@ -28,4 +37,34 @@ class TileEntityBitHop : TileEntity(), IContainerInventoryHolder {
     }
 
     private fun getFirstFullSlot(): Int = (0 until CAPACITY).firstOrNull{inv.getCanExtract(it)} ?: -1
+
+    private fun getInventoryForHopperTransfer() {
+        getInventoryAtPosition(getWorld(), pos.add(BlockBitHop.getFacing(blockMetadata).directionVec), false)
+    }
+}
+
+fun getInventoryAtPosition(worldIn: World, pos: BlockPos, scanEntities: Boolean = false): IInventory? {
+    val state = worldIn.getBlockState(pos)
+    val block = state.block
+    if (block.hasTileEntity(state)) {
+        val te = worldIn.getTileEntity(pos)
+        if (te is IInventory) {
+            return if (te is TileEntityChest && block is BlockChest)
+                block.getContainer(worldIn, pos, true) ?: te
+            else
+                te
+        }
+    }
+
+    return if (scanEntities) {
+        val inRange = worldIn.getEntitiesInAABBexcluding(null,
+                AxisAlignedBB(pos.x.toDouble(), pos.y.toDouble(), pos.z.toDouble(),
+                        pos.x + 1.0, pos.y + 1.0, pos.z + 1.0),
+                EntitySelectors.HAS_INVENTORY)
+
+        if (inRange.isNotEmpty())
+            inRange[worldIn.rand.nextInt(inRange.size)] as IInventory
+        else
+            null
+    } else null
 }
