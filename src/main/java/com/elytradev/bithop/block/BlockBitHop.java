@@ -3,10 +3,7 @@ package com.elytradev.bithop.block;
 import com.elytradev.bithop.BitHop;
 import com.elytradev.bithop.tile.TileEntityBitHop;
 import com.google.common.base.Predicate;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockHorizontal;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.properties.PropertyDirection;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
@@ -30,7 +27,6 @@ public class BlockBitHop extends BlockTileEntity<TileEntityBitHop> {
             return p_apply_1_ != EnumFacing.UP;
         }
     });
-    public static int FACE = 3;
 
     public BlockBitHop(Material material, String name) {
         super(material, name);
@@ -73,18 +69,18 @@ public class BlockBitHop extends BlockTileEntity<TileEntityBitHop> {
         return false;
     }
 
-    @Override
-    public int getMetaFromState(IBlockState state){
-        int meta = 0;
-        meta |= state.getValue(FACING).getIndex();
-        return meta;
+    public int getMetaFromState(IBlockState state)
+    {
+        int i = 0;
+        i = i | ((EnumFacing)state.getValue(FACING)).getIndex();
+        i |= 8;
+
+        return i;
     }
 
-    @Override
-    public IBlockState getStateFromMeta(int meta){
-        int facebits = meta & FACE;
-        EnumFacing facing = EnumFacing.getHorizontal(facebits);
-        return blockState.getBaseState().withProperty(FACING, facing);
+    public IBlockState getStateFromMeta(int meta)
+    {
+        return this.getDefaultState().withProperty(FACING, getFacing(meta));
     }
 
     public IBlockState getStateForPlacement(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer)
