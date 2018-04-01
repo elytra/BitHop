@@ -5,6 +5,7 @@ import com.elytradev.bithop.block.ModBlocks
 import com.elytradev.concrete.inventory.ConcreteItemStorage
 import com.elytradev.concrete.inventory.IContainerInventoryHolder
 import com.elytradev.concrete.inventory.ValidatedInventoryView
+import com.elytradev.concrete.inventory.ValidatedItemHandlerView
 import net.minecraft.block.BlockChest
 import net.minecraft.inventory.IInventory
 import net.minecraft.tileentity.TileEntity
@@ -51,7 +52,7 @@ class TileEntityBitHop : TileEntity(), IContainerInventoryHolder {
 
     override fun <T : Any?> getCapability(capability: Capability<T>, facing: EnumFacing?): T? {
         if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
-            return ValidatedInventoryView(inv) as T;
+            return ValidatedItemHandlerView(inv) as T
         }
         return super.getCapability(capability, facing)
     }
