@@ -1,7 +1,7 @@
 package com.elytradev.bithop.block;
 
 import com.elytradev.bithop.BitHop;
-import com.elytradev.bithop.tile.TileEntityBitHopKt;
+import com.elytradev.bithop.tile.TileEntityBitHop;
 import com.google.common.base.Predicate;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockHorizontal;
@@ -17,7 +17,7 @@ import net.minecraft.world.World;
 
 import javax.annotation.Nullable;
 
-public class BlockBitHop extends BlockTileEntity<TileEntityBitHopKt> {
+public class BlockBitHop extends BlockTileEntity<TileEntityBitHop> {
 
     protected String name;
 
@@ -38,13 +38,13 @@ public class BlockBitHop extends BlockTileEntity<TileEntityBitHopKt> {
     }
 
     @Override
-    public Class<TileEntityBitHopKt> getTileEntityClass() {
-        return TileEntityBitHopKt.class;
+    public Class<TileEntityBitHop> getTileEntityClass() {
+        return TileEntityBitHop.class;
     }
 
     @Override
-    public TileEntityBitHopKt createTileEntity(World world, IBlockState state) {
-        return new TileEntityBitHopKt();
+    public TileEntityBitHop createTileEntity(World world, IBlockState state) {
+        return new TileEntityBitHop();
     }
 
     @Override
