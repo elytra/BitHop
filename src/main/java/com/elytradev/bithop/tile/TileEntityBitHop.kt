@@ -15,6 +15,8 @@ import net.minecraft.util.EnumFacing
 import net.minecraft.util.math.AxisAlignedBB
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.World
+import net.minecraftforge.common.capabilities.Capability
+import net.minecraftforge.items.CapabilityItemHandler
 
 val CAPACITY = 5
 
@@ -40,6 +42,18 @@ class TileEntityBitHop : TileEntity(), IContainerInventoryHolder {
 
     private fun getInventoryForHopperTransfer() {
         getInventoryAtPosition(getWorld(), pos.add(BlockBitHop.getFacing(blockMetadata).directionVec), false)
+    }
+
+    override fun hasCapability(capability: Capability<*>, facing: EnumFacing?): Boolean {
+        if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) return true;
+        return super.hasCapability(capability, facing)
+    }
+
+    override fun <T : Any?> getCapability(capability: Capability<T>, facing: EnumFacing?): T? {
+        if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
+            return ValidatedInventoryView(inv) as T;
+        }
+        return super.getCapability(capability, facing)
     }
 }
 

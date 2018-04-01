@@ -1,5 +1,7 @@
 package com.elytradev.bithop;
 
+import com.elytradev.bithop.container.BitHopContainer;
+import com.elytradev.bithop.tile.TileEntityBitHop;
 import com.elytradev.bithop.util.BitHopConfig;
 import com.elytradev.concrete.inventory.IContainerInventoryHolder;
 import com.elytradev.concrete.inventory.gui.client.ConcreteGui;
@@ -56,16 +58,16 @@ public class BitHop {
         config = BitHopConfig.createConfig(event);
 
         NetworkRegistry.INSTANCE.registerGuiHandler(this, new IGuiHandler() {
-            // public static final int BOILER = 0;
+             public static final int BITHOP = 0;
 
             @Nullable
             @Override
             public Object getServerGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
                 switch (ID) {
-                    // case BOILER:
-                        // return new BoilerContainer(
-                        //         player.inventory, ((IContainerInventoryHolder)world.getTileEntity(new BlockPos(x,y,z))).getContainerInventory(),
-                        //         (TileEntityBoilerController)world.getTileEntity(new BlockPos(x,y,z)));
+                     case BITHOP:
+                         return new BitHopContainer(
+                                 player.inventory, ((IContainerInventoryHolder)world.getTileEntity(new BlockPos(x,y,z))).getContainerInventory(),
+                                 (TileEntityBitHop)world.getTileEntity(new BlockPos(x,y,z)));
                     default:
                         return null;
                 }
@@ -77,11 +79,11 @@ public class BitHop {
             @SideOnly(Side.CLIENT)
             public Object getClientGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
                 switch (ID) {
-                    // case BOILER:
-                    //     BoilerContainer boilerContainer = new BoilerContainer(
-                    //             player.inventory, ((IContainerInventoryHolder)world.getTileEntity(new BlockPos(x,y,z))).getContainerInventory(),
-                    //             (TileEntityBoilerController)world.getTileEntity(new BlockPos(x,y,z)));
-                    //     return new ConcreteGui(boilerContainer);
+                     case BITHOP:
+                         BitHopContainer bitHopContainer = new BitHopContainer(
+                                 player.inventory, ((IContainerInventoryHolder)world.getTileEntity(new BlockPos(x,y,z))).getContainerInventory(),
+                                 (TileEntityBitHop) world.getTileEntity(new BlockPos(x,y,z)));
+                         return new ConcreteGui(bitHopContainer);
                     default:
                         return null;
                 }
