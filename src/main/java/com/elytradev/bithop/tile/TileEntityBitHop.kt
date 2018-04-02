@@ -30,7 +30,7 @@ class TileEntityBitHop : TileEntity(), IContainerInventoryHolder, ITickable {
     val inv = ConcreteItemStorage(CAPACITY).withName("${ModBlocks.BITHOP.unlocalizedName}.name")
     var cooldown = 8
     init {
-        inv.listen{markDirty()}
+        inv.listen{this.markDirty()}
     }
 
     override fun getContainerInventory() = ValidatedInventoryView(inv)
@@ -60,6 +60,7 @@ class TileEntityBitHop : TileEntity(), IContainerInventoryHolder, ITickable {
                 }
             }
             cooldown = MAX_COOLDOWN
+            this.markDirty()
         }
     }
 
