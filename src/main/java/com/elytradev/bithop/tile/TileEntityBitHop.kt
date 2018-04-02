@@ -20,6 +20,7 @@ import net.minecraft.util.math.BlockPos
 import net.minecraft.world.World
 import net.minecraftforge.common.capabilities.Capability
 import net.minecraftforge.items.CapabilityItemHandler
+import net.minecraftforge.items.IItemHandler
 
 val CAPACITY = 5
 
@@ -44,6 +45,8 @@ class TileEntityBitHop : TileEntity(), IContainerInventoryHolder, ITickable {
 
     private fun getFirstFullSlot(): Int = (0 until CAPACITY).firstOrNull{inv.getCanExtract(it)} ?: -1
 
+    private fun getFirstEmptylot(slotTotal: Int, cap: IItemHandler, test: ItemStack): Int = (0 until slotTotal).firstOrNull{cap.insertItem(it, test, true).isEmpty()} ?: -1
+
     private fun getInventoryForHopperTransfer() {
         getInventoryAtPosition(getWorld(), pos.add(BlockBitHop.getFacing(blockMetadata).directionVec), false)
     }
@@ -57,13 +60,17 @@ class TileEntityBitHop : TileEntity(), IContainerInventoryHolder, ITickable {
             }
             val slot = getFirstFullSlot()
             if (slot != -1) {
-                var tile = world.getTileEntity(getPos().offset(direction))
-                if (tile == null || !tile.hasCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, direction?.getOpposite())) return
-                var cap = tile.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, direction?.opposite)
+                var tile = world.getTileEntity(getPos().offset(BlockBitHop.getFacing(blockMetadata)))
+                if (tile == null || !tile.hasCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, BlockBitHop.getFacing(blockMetadata).getOpposite())) return
+                var cap = tile.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, BlockBitHop.getFacing(blockMetadata).getOpposite())
                 var extract = inv.extractItem(slot, 1, true)
                 if (!extract.isEmpty) {
-                    var insert = cap?.insertItem(1, extract, false)
-                    if (!insert!!.isEmpty) inv.extractItem(slot, 1, false)
+                    var slotTotal = cap!!.slots
+                    var insertSlot = getFirstEmptylot(slotTotal, cap, extract)
+                    if (insertSlot != -1) {
+                        var insert = cap.insertItem(insertSlot, extract, false)
+                        if (insert.isEmpty) inv.extractItem(slot, 1, false)
+                    }
                 }
             }
             cooldown = maxCooldown
