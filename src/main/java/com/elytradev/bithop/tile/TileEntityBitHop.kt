@@ -10,9 +10,16 @@ import net.minecraft.item.ItemStack
 import net.minecraft.tileentity.TileEntity
 import net.minecraft.util.EnumFacing
 import net.minecraft.util.ITickable
+import net.minecraft.world.WorldServer
+import net.minecraft.world.chunk.Chunk
 import net.minecraftforge.common.capabilities.Capability
 import net.minecraftforge.items.CapabilityItemHandler
 import net.minecraftforge.items.IItemHandler
+import com.google.common.base.Predicates
+import net.minecraft.entity.player.EntityPlayerMP
+import net.minecraft.network.play.server.SPacketUpdateTileEntity
+
+
 
 
 class TileEntityBitHop : TileEntity(), IContainerInventoryHolder, ITickable {
@@ -69,4 +76,18 @@ class TileEntityBitHop : TileEntity(), IContainerInventoryHolder, ITickable {
             else -> super.getCapability(capability, facing)
         }
     }
+    override fun markDirty() {
+        super.markDirty()
+        // again, I've copy-pasted this like 12 times, should probably go into Concrete
+        if (!hasWorld() || getWorld().isRemote) return
+        val ws = getWorld() as WorldServer
+        val c = getWorld().getChunkFromBlockCoords(getPos())
+        val packet = SPacketUpdateTileEntity(getPos(), 0, updateTag)
+        for (player in getWorld().getPlayers(EntityPlayerMP::class.java, Predicates.alwaysTrue())) {
+            if (ws.playerChunkMap.isPlayerWatchingChunk(player, c.x, c.z)) {
+                player.connection.sendPacket(packet)
+            }
+        }
+    }
+
 }
