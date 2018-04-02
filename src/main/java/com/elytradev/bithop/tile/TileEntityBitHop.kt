@@ -71,15 +71,17 @@ class TileEntityBitHop : TileEntity(), IContainerInventoryHolder, ITickable {
     }
 
     override fun hasCapability(capability: Capability<*>, facing: EnumFacing?): Boolean {
-        if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) return true
-        return super.hasCapability(capability, facing)
+        return when (capability) {
+            CapabilityItemHandler.ITEM_HANDLER_CAPABILITY -> true
+            else -> super.hasCapability(capability, facing)
+        }
     }
 
     override fun <T : Any?> getCapability(capability: Capability<T>, facing: EnumFacing?): T? {
-        if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
-            return ValidatedItemHandlerView(inv) as T
+        return when (capability) {
+            CapabilityItemHandler.ITEM_HANDLER_CAPABILITY -> ValidatedItemHandlerView(inv) as T
+            else -> super.getCapability(capability, facing)
         }
-        return super.getCapability(capability, facing)
     }
 }
 
