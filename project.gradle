@@ -30,6 +30,5 @@ repositories {
 }
 
 dependencies {
-	compile group: "net.shadowfacts", name: "Forgelin", version: "LATEST_VERSION"
 }
 }
