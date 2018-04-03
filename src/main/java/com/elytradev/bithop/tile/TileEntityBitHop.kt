@@ -17,18 +17,30 @@ import net.minecraftforge.items.CapabilityItemHandler
 import net.minecraftforge.items.IItemHandler
 import com.google.common.base.Predicates
 import net.minecraft.entity.player.EntityPlayerMP
+import net.minecraft.nbt.NBTTagCompound
 import net.minecraft.network.play.server.SPacketUpdateTileEntity
 
 class TileEntityBitHop : TileEntity(), IContainerInventoryHolder, ITickable {
     companion object {
         const val MAX_COOLDOWN = 8
         const val CAPACITY = 5
+        const val INV_TAG = "inv"
     }
     val inv = ConcreteItemStorage(CAPACITY).withName("${ModBlocks.BITHOP.unlocalizedName}.name")
     var cooldown = 8
     init {
         inv.listen{this.markDirty()}
     }
+
+    override fun serializeNBT(): NBTTagCompound {
+        val tag = NBTTagCompound()
+        tag.setTag(INV_TAG, inv.serializeNBT())
+        return tag
+    }
+
+    override fun deserializeNBT(nbt: NBTTagCompound?) = nbt ?.let {
+        inv.deserializeNBT(it.getCompoundTag(INV_TAG))
+    }?: Unit
 
     override fun getContainerInventory() = ValidatedInventoryView(inv)
 
