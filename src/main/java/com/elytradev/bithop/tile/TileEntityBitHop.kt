@@ -10,19 +10,12 @@ import net.minecraft.item.ItemStack
 import net.minecraft.tileentity.TileEntity
 import net.minecraft.util.EnumFacing
 import net.minecraft.util.ITickable
-import net.minecraft.world.WorldServer
-import net.minecraft.world.chunk.Chunk
 import net.minecraftforge.common.capabilities.Capability
 import net.minecraftforge.items.CapabilityItemHandler
 import net.minecraftforge.items.IItemHandler
-import com.google.common.base.Predicates
-import net.minecraft.entity.player.EntityPlayerMP
 import net.minecraft.nbt.NBTTagCompound
 import net.minecraft.network.play.server.SPacketUpdateTileEntity
-import net.minecraftforge.common.util.BlockSnapshot.readFromNBT
-import com.sun.webkit.PageCache.setCapacity
-
-
+import net.minecraft.network.NetworkManager
 
 class TileEntityBitHop : TileEntity(), IContainerInventoryHolder, ITickable {
     companion object {
@@ -45,6 +38,22 @@ class TileEntityBitHop : TileEntity(), IContainerInventoryHolder, ITickable {
     override fun readFromNBT(compound: NBTTagCompound) {
         super.readFromNBT(compound)
         inv.deserializeNBT(compound.getCompoundTag(INV_TAG))
+    }
+
+    override fun getUpdateTag(): NBTTagCompound {
+        return writeToNBT(NBTTagCompound())
+    }
+
+    override fun getUpdatePacket(): SPacketUpdateTileEntity? {
+        return SPacketUpdateTileEntity(getPos(), 0, updateTag)
+    }
+
+    override fun handleUpdateTag(tag: NBTTagCompound) {
+        readFromNBT(tag)
+    }
+
+    override fun onDataPacket(net: NetworkManager?, pkt: SPacketUpdateTileEntity?) {
+        handleUpdateTag(pkt!!.nbtCompound)
     }
 
     override fun getContainerInventory() = ValidatedInventoryView(inv)
