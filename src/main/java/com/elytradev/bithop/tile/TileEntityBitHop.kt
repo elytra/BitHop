@@ -19,12 +19,16 @@ import com.google.common.base.Predicates
 import net.minecraft.entity.player.EntityPlayerMP
 import net.minecraft.nbt.NBTTagCompound
 import net.minecraft.network.play.server.SPacketUpdateTileEntity
+import net.minecraftforge.common.util.BlockSnapshot.readFromNBT
+import com.sun.webkit.PageCache.setCapacity
+
+
 
 class TileEntityBitHop : TileEntity(), IContainerInventoryHolder, ITickable {
     companion object {
         const val MAX_COOLDOWN = 8
         const val CAPACITY = 5
-        const val INV_TAG = "inv"
+        const val INV_TAG = "Inventory"
     }
     val inv = ConcreteItemStorage(CAPACITY).withName("${ModBlocks.BITHOP.unlocalizedName}.name")
     var cooldown = 8
@@ -32,15 +36,16 @@ class TileEntityBitHop : TileEntity(), IContainerInventoryHolder, ITickable {
         inv.listen{this.markDirty()}
     }
 
-    override fun serializeNBT(): NBTTagCompound {
-        val tag = NBTTagCompound()
+    override fun writeToNBT(compound: NBTTagCompound): NBTTagCompound {
+        val tag = super.writeToNBT(compound)
         tag.setTag(INV_TAG, inv.serializeNBT())
         return tag
     }
 
-    override fun deserializeNBT(nbt: NBTTagCompound?) = nbt ?.let {
-        inv.deserializeNBT(it.getCompoundTag(INV_TAG))
-    }?: Unit
+    override fun readFromNBT(compound: NBTTagCompound) {
+        super.readFromNBT(compound)
+        inv.deserializeNBT(compound.getCompoundTag(INV_TAG))
+    }
 
     override fun getContainerInventory() = ValidatedInventoryView(inv)
 
