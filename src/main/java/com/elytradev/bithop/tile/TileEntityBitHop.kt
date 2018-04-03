@@ -19,9 +19,6 @@ import com.google.common.base.Predicates
 import net.minecraft.entity.player.EntityPlayerMP
 import net.minecraft.network.play.server.SPacketUpdateTileEntity
 
-
-
-
 class TileEntityBitHop : TileEntity(), IContainerInventoryHolder, ITickable {
     companion object {
         const val MAX_COOLDOWN = 8
