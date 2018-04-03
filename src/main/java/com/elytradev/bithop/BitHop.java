@@ -34,13 +34,12 @@ import net.minecraftforge.oredict.OreDictionary;
 import javax.annotation.Nullable;
 
 
-@Mod(modid = BitHop.modId, name = BitHop.name, version = BitHop.version)
+@Mod(modid = BitHop.modId, name = BitHop.name, version = BitHop.version, dependencies = "required-after:forgelin@[version)")
 public class BitHop {
     public static final String modId = "bithop";
     public static final String name  = "BitHop";
     public static final String version = "@VERSION@";
     public static BitHopConfig config;
-    public static boolean hasBrass;
 
     @Mod.Instance(modId)
     public static BitHop instance;
