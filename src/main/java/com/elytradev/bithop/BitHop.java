@@ -34,7 +34,7 @@ import net.minecraftforge.oredict.OreDictionary;
 import javax.annotation.Nullable;
 
 
-@Mod(modid = BitHop.modId, name = BitHop.name, version = BitHop.version, dependencies = "required-after:forgelin@[1.6.0)")
+@Mod(modid = BitHop.modId, name = BitHop.name, version = BitHop.version, dependencies = "required-after:forgelin@[1.6.0,)")
 public class BitHop {
     public static final String modId = "bithop";
     public static final String name  = "BitHop";
