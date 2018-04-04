@@ -64,9 +64,11 @@ public class BitHop {
             public Object getServerGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
                 switch (ID) {
                      case BITHOP:
-                         return new BitHopContainer(
+                         BitHopContainer bitHopContainer = new BitHopContainer(
                                  player.inventory, ((IContainerInventoryHolder)world.getTileEntity(new BlockPos(x,y,z))).getContainerInventory(),
                                  (TileEntityBitHop)world.getTileEntity(new BlockPos(x,y,z)));
+                         bitHopContainer.validate();
+                         return bitHopContainer;
                     default:
                         return null;
                 }
