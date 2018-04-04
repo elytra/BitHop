@@ -14,8 +14,9 @@ import net.minecraftforge.common.capabilities.Capability
 import net.minecraftforge.items.CapabilityItemHandler
 import net.minecraftforge.items.IItemHandler
 import net.minecraft.nbt.NBTTagCompound
-import net.minecraft.network.play.server.SPacketUpdateTileEntity
-import net.minecraft.network.NetworkManager
+import net.minecraft.inventory.IInventory
+
+
 
 class TileEntityBitHop : TileEntity(), IContainerInventoryHolder, ITickable {
     companion object {
@@ -26,7 +27,7 @@ class TileEntityBitHop : TileEntity(), IContainerInventoryHolder, ITickable {
     val inv = ConcreteItemStorage(CAPACITY).withName("${ModBlocks.BITHOP.unlocalizedName}.name")
     var cooldown = 8
     init {
-        inv.listen{this.markDirty()}
+        inv.listen(this::markDirty)
     }
 
     override fun writeToNBT(compound: NBTTagCompound): NBTTagCompound {
@@ -40,23 +41,7 @@ class TileEntityBitHop : TileEntity(), IContainerInventoryHolder, ITickable {
         inv.deserializeNBT(compound.getCompoundTag(INV_TAG))
     }
 
-    override fun getUpdateTag(): NBTTagCompound {
-        return writeToNBT(NBTTagCompound())
-    }
-
-    override fun getUpdatePacket(): SPacketUpdateTileEntity? {
-        return SPacketUpdateTileEntity(getPos(), 0, updateTag)
-    }
-
-    override fun handleUpdateTag(tag: NBTTagCompound) {
-        readFromNBT(tag)
-    }
-
-    override fun onDataPacket(net: NetworkManager?, pkt: SPacketUpdateTileEntity?) {
-        handleUpdateTag(pkt!!.nbtCompound)
-    }
-
-    override fun getContainerInventory() = ValidatedInventoryView(inv)
+    override fun getContainerInventory(): IInventory { return ValidatedInventoryView(inv) }
 
     private fun getFirstFullSlot(): Int = (0 until CAPACITY).firstOrNull{inv.getCanExtract(it)} ?: -1
 
@@ -66,7 +51,6 @@ class TileEntityBitHop : TileEntity(), IContainerInventoryHolder, ITickable {
         if(!world.isRemote) {
             if (cooldown > 0) {
                 cooldown--
-                this.markDirty()
                 return
             }
             val slot = getFirstFullSlot()
@@ -83,7 +67,6 @@ class TileEntityBitHop : TileEntity(), IContainerInventoryHolder, ITickable {
                 }
             }
             cooldown = MAX_COOLDOWN
-            this.markDirty()
         }
     }
 
