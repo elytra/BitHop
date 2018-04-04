@@ -8,9 +8,10 @@
     "url": "",
     "updateUrl": "",
     "authorList": [
-      "b0undarybreaker"
+      "b0undarybreaker",
+      "capitalthree"
     ],
-    "credits": "",
+    "credits": "NikkyAI for debugging help",
     "logoFile": "",
     "screenshots": [],
     "dependencies": ["forgelin"]
