@@ -3,16 +3,16 @@ package com.elytradev.bithop.block;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.item.Item;
-import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.registries.IForgeRegistry;
 
 public class ModBlocks {
 
     public static final BlockBitHop BITHOP = new BlockBitHop(Material.IRON, "bithop");
+    public static final BlockFluxHop FLUXHOP = new BlockFluxHop(Material.IRON, "fluxhop");
 
     public static IBlockBase[] allBlocks = {
-             BITHOP
+             BITHOP, FLUXHOP
     };
 
     public static void register(IForgeRegistry<Block> registry) {
@@ -21,7 +21,8 @@ public class ModBlocks {
             registry.register(block.toBlock());
         }
 
-         GameRegistry.registerTileEntity(BITHOP.getTileEntityClass(), BITHOP.getRegistryName().toString());
+        GameRegistry.registerTileEntity(BITHOP.getTileEntityClass(), BITHOP.getRegistryName().toString());
+        GameRegistry.registerTileEntity(FLUXHOP.getTileEntityClass(), FLUXHOP.getRegistryName().toString());
 
     }
 

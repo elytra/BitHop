@@ -12,8 +12,8 @@ public class BitHopConfig extends ConcreteConfig {
 
     public File configFolder;
 
-    @ConfigValue(type = Property.Type.INTEGER, category = "BoilerUsage", comment = "The amount of ticks needed for one boiler cycle, sans calculation. Actual value will be 200/(<number of firebox blocks> * <number of active fuel sources>.")
-    public static int ticksToBoil = 200;
+    @ConfigValue(type = Property.Type.INTEGER, category = "FluxHop", comment = "The average RF/t for a FluxHop to transfer. The FluxHop only transfers once every 8 ticks, so it transfers 8x this value.")
+    public static int fluxHopTransfer = 200;
 
     private BitHopConfig(File configFile) {
         super(configFile, BitHop.modId);
