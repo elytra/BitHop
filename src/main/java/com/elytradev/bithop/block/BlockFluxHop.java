@@ -45,13 +45,13 @@ public class BlockFluxHop extends BlockTileEntity<TileEntityFluxHop> {
         return new TileEntityFluxHop();
     }
 
-//    @Override
-//    public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
-//        if(!world.isRemote && !player.isSneaking()) {
-//            player.openGui(BitHop.instance, 0, world, pos.getX(), pos.getY(), pos.getZ());
-//        }
-//        return true;
-//    }
+    @Override
+    public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
+        if(!world.isRemote && !player.isSneaking()) {
+            player.openGui(BitHop.instance, 1, world, pos.getX(), pos.getY(), pos.getZ());
+        }
+        return true;
+    }
 
     @Override
     public BlockStateContainer createBlockState(){

@@ -54,11 +54,21 @@ class TileEntityFluxHop : TileEntity(), IContainerInventoryHolder, ITickable {
         }
     }
 
-    override fun getContainerInventory(): IInventory { return ValidatedInventoryView(inv) }
+    override fun getContainerInventory(): IInventory {
+        val view = ValidatedInventoryView(inv)
+        return if (world.isRemote) {
+            view
+        } else {
+            view.withField(0) { energy.getEnergyStored() }
+                    .withField(1) { energy.getMaxEnergyStored() }
+        }
+    }
 
     private fun getFirstFullSlot(): Int = (0 until CAPACITY).firstOrNull{inv.getCanExtract(it)} ?: -1
+    private fun getFirstFullSlotCap(slotTotal: Int, cap: IItemHandler): Int = (0 until slotTotal).firstOrNull{!cap.getStackInSlot(it).isEmpty} ?: -1
 
-    private fun getFirstEmptySlot(slotTotal: Int, cap: IItemHandler, test: ItemStack): Int = (0 until slotTotal).firstOrNull{cap.insertItem(it, test, true).isEmpty()} ?: -1
+    private fun getFirstEmptySlot(test: ItemStack): Int = (0 until CAPACITY).firstOrNull{inv.insertItem(it, test, true).isEmpty} ?: -1
+    private fun getFirstEmptySlotCap(slotTotal: Int, cap: IItemHandler, test: ItemStack): Int = (0 until slotTotal).firstOrNull{cap.insertItem(it, test, true).isEmpty()} ?: -1
 
     override fun update() {
         if(!world.isRemote) {
@@ -66,26 +76,66 @@ class TileEntityFluxHop : TileEntity(), IContainerInventoryHolder, ITickable {
                 cooldown--
                 return
             }
-            val slot = getFirstFullSlot()
-            if (slot != -1) {
-                val tile = world.getTileEntity(getPos().offset(BlockFluxHop.getFacing(blockMetadata))) ?: return
-                val capItem = tile.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, BlockFluxHop.getFacing(blockMetadata).opposite)!!
-                val capEnergy = tile.getCapability(CapabilityEnergy.ENERGY, BlockFluxHop.getFacing(blockMetadata).opposite)!!
-                val itemExtract = inv.extractItem(slot, 1, true)
+            val tileFront = world.getTileEntity(getPos().offset(BlockFluxHop.getFacing(blockMetadata)))
+            val tileUp = world.getTileEntity(getPos().offset(EnumFacing.UP))
+            if (tileFront != null) { handlePush(tileFront) }
+            if (tileUp != null) { handlePull(tileUp) }
+            cooldown = MAX_COOLDOWN
+        }
+    }
+
+    fun handlePush(tile: TileEntity) {
+        val capItem = tile.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, BlockFluxHop.getFacing(blockMetadata).opposite)
+        val capEnergy = tile.getCapability(CapabilityEnergy.ENERGY, BlockFluxHop.getFacing(blockMetadata).opposite)
+
+        if (capItem != null) {
+            val slotFull = getFirstFullSlot()
+            if (slotFull != -1) {
+                val itemExtract = inv.extractItem(slotFull, 1, true)
                 if (!itemExtract.isEmpty) {
-                    val insertSlot = getFirstEmptySlot(capItem.slots, capItem, itemExtract)
+                    val insertSlot = getFirstEmptySlotCap(capItem.slots, capItem, itemExtract)
                     if (insertSlot != -1) {
                         val insert = capItem.insertItem(insertSlot, itemExtract, false)
-                        if (insert.isEmpty) inv.extractItem(slot, 1, false)
+                        if (insert.isEmpty) inv.extractItem(slotFull, 1, false)
                     }
                 }
-                val energyTransfer = energy.extractEnergy(8*BitHopConfig.fluxHopTransfer, true)
-                if (energyTransfer != 0) {
-                    val qty = capEnergy.receiveEnergy(8*BitHopConfig.fluxHopTransfer, false)
-                    if (qty > 0) energy.extractEnergy(qty, false)
+            }
+        }
+
+        if (capEnergy != null) {
+            val energyExtract = energy.extractEnergy(8 * BitHopConfig.fluxHopTransfer, true)
+            if (energyExtract != 0) {
+                val qty = capEnergy.receiveEnergy(8 * BitHopConfig.fluxHopTransfer, false)
+                if (qty > 0) energy.extractEnergy(qty, false)
+            }
+        }
+    }
+
+    fun handlePull(tile: TileEntity) {
+        val capItem = tile.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, EnumFacing.DOWN)
+        val capEnergy = tile.getCapability(CapabilityEnergy.ENERGY, EnumFacing.DOWN)
+
+        if (capItem != null) {
+            val capSlot = getFirstFullSlotCap(capItem.slots, capItem)
+            val itemExtract = capItem.extractItem(capSlot, 1, true)
+            if (!itemExtract.isEmpty) {
+                val slotEmpty = getFirstEmptySlot(itemExtract)
+                if (slotEmpty != -1) {
+                    val insertSlot = getFirstEmptySlot(itemExtract)
+                    if (insertSlot != -1) {
+                        val insert = inv.insertItem(insertSlot, itemExtract, false)
+                        if (insert.isEmpty) capItem.extractItem(capSlot, 1, false)
+                    }
                 }
             }
-            cooldown = MAX_COOLDOWN
+        }
+
+        if (capEnergy != null) {
+            val energyExtract = capEnergy.extractEnergy(8 * BitHopConfig.fluxHopTransfer, true)
+            if (energyExtract != 0) {
+                val qty = energy.receiveEnergy(8 * BitHopConfig.fluxHopTransfer, false)
+                if (qty > 0) capEnergy.extractEnergy(qty, false)
+            }
         }
     }
 

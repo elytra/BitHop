@@ -1,7 +1,9 @@
 package com.elytradev.bithop;
 
 import com.elytradev.bithop.container.BitHopContainer;
+import com.elytradev.bithop.container.FluxHopContainer;
 import com.elytradev.bithop.tile.TileEntityBitHop;
+import com.elytradev.bithop.tile.TileEntityFluxHop;
 import com.elytradev.bithop.util.BitHopConfig;
 import com.elytradev.concrete.inventory.IContainerInventoryHolder;
 import com.elytradev.concrete.inventory.gui.client.ConcreteGui;
@@ -58,6 +60,7 @@ public class BitHop {
 
         NetworkRegistry.INSTANCE.registerGuiHandler(this, new IGuiHandler() {
              public static final int BITHOP = 0;
+             public static final int FLUXHOP = 1;
 
             @Nullable
             @Override
@@ -69,6 +72,12 @@ public class BitHop {
                                  (TileEntityBitHop)world.getTileEntity(new BlockPos(x,y,z)));
                          bitHopContainer.validate();
                          return bitHopContainer;
+                    case FLUXHOP:
+                        FluxHopContainer fluxHopContainer = new FluxHopContainer(
+                                player.inventory, ((IContainerInventoryHolder)world.getTileEntity(new BlockPos(x,y,z))).getContainerInventory(),
+                                (TileEntityFluxHop)world.getTileEntity(new BlockPos(x,y,z)));
+                        fluxHopContainer.validate();
+                        return fluxHopContainer;
                     default:
                         return null;
                 }
@@ -85,6 +94,11 @@ public class BitHop {
                                  player.inventory, ((IContainerInventoryHolder)world.getTileEntity(new BlockPos(x,y,z))).getContainerInventory(),
                                  (TileEntityBitHop) world.getTileEntity(new BlockPos(x,y,z)));
                          return new ConcreteGui(bitHopContainer);
+                    case FLUXHOP:
+                        FluxHopContainer fluxHopContainer = new FluxHopContainer(
+                                player.inventory, ((IContainerInventoryHolder)world.getTileEntity(new BlockPos(x,y,z))).getContainerInventory(),
+                                (TileEntityFluxHop) world.getTileEntity(new BlockPos(x,y,z)));
+                        return new ConcreteGui(fluxHopContainer);
                     default:
                         return null;
                 }
