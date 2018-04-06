@@ -1,5 +1,6 @@
 package com.elytradev.bithop.tile
 
+import com.elytradev.bithop.BitHopLog
 import com.elytradev.bithop.block.BlockFluxHop
 import com.elytradev.bithop.block.ModBlocks
 import com.elytradev.bithop.util.BitHopConfig
@@ -25,32 +26,32 @@ class TileEntityFluxHop : TileEntity(), IContainerInventoryHolder, ITickable {
         const val CAPACITY = 3
         const val ENERGY_STORAGE = 10_000
         const val INV_TAG = "Inventory"
+        const val ENERGY_TAG = "Energy"
     }
     val inv = ConcreteItemStorage(CAPACITY).withName("${ModBlocks.FLUXHOP.unlocalizedName}.name")
-    val energy = ObservableEnergyStorage(ENERGY_STORAGE, BitHopConfig.fluxHopTransfer)
+    val energy = ObservableEnergyStorage(ENERGY_STORAGE, 8*BitHopConfig.fluxHopTransfer)
     var cooldown = 8
     init {
         inv.listen(this::markDirty)
+        energy.listen(this::markDirty)
     }
 
     override fun writeToNBT(compound: NBTTagCompound): NBTTagCompound {
         val tag = super.writeToNBT(compound)
         tag.setTag(INV_TAG, inv.serializeNBT())
         val energyTag = CapabilityEnergy.ENERGY.storage.writeNBT(CapabilityEnergy.ENERGY, energy, null)
-        tag.setTag("Energy", energyTag);
+        tag.setTag(ENERGY_TAG, energyTag)
         return tag
     }
 
     override fun readFromNBT(compound: NBTTagCompound) {
         super.readFromNBT(compound)
         inv.deserializeNBT(compound.getCompoundTag(INV_TAG))
-        val energyTag = compound.getTag("Energy")
+        val energyTag = compound.getTag(ENERGY_TAG)
         if (energyTag != null) {
             try {
                 CapabilityEnergy.ENERGY.storage.readNBT(CapabilityEnergy.ENERGY, energy, null, energyTag)
-            } catch (t: Throwable) {
-            }
-
+            } catch (t: Throwable) { }
         }
     }
 
@@ -72,13 +73,13 @@ class TileEntityFluxHop : TileEntity(), IContainerInventoryHolder, ITickable {
 
     override fun update() {
         if(!world.isRemote) {
-            handleEnergy()
             if (cooldown > 0) {
                 cooldown--
                 return
             }
             handlePush()
             handlePull()
+            handleEnergy()
             cooldown = MAX_COOLDOWN
         }
     }
@@ -119,9 +120,9 @@ class TileEntityFluxHop : TileEntity(), IContainerInventoryHolder, ITickable {
     private fun handleEnergy() {
         val tile = world.getTileEntity(getPos().offset(BlockFluxHop.getFacing(blockMetadata))) ?: return
         val capEnergy = tile.getCapability(CapabilityEnergy.ENERGY, BlockFluxHop.getFacing(blockMetadata).opposite) ?: return
-        val energyExtract = energy.extractEnergy(BitHopConfig.fluxHopTransfer, true)
+        val energyExtract = energy.extractEnergy(8*BitHopConfig.fluxHopTransfer, true)
         if (energyExtract != 0) {
-            val qty = capEnergy.receiveEnergy(BitHopConfig.fluxHopTransfer, false)
+            val qty = capEnergy.receiveEnergy(energyExtract, false)
             if (qty > 0) energy.extractEnergy(qty, false)
         }
     }

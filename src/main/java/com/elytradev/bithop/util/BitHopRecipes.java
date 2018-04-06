@@ -28,6 +28,12 @@ public class BitHopRecipes {
                  'c', new ItemStack(Blocks.CHEST),
                  'i', new ItemStack(Items.IRON_INGOT)
          ));
+        recipe(r, new ShapedOreRecipe(new ResourceLocation("bithop:blocks"), new ItemStack(ModBlocks.FLUXHOP, 5),
+                "iri", "ici", "rir",
+                'c', new ItemStack(Blocks.CHEST),
+                'i', new ItemStack(Items.IRON_INGOT),
+                'r', new ItemStack(Items.REDSTONE)
+        ));
 
     }
 

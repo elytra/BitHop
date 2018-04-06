@@ -12,7 +12,7 @@ public class BitHopConfig extends ConcreteConfig {
 
     public File configFolder;
 
-    @ConfigValue(type = Property.Type.INTEGER, category = "FluxHop", comment = "The RF/t for a FluxHop to transfer.")
+    @ConfigValue(type = Property.Type.INTEGER, category = "FluxHop", comment = "The RF/t for a FluxHop to transfer. Will transfer 8x this amount every 8 ticks.")
     public static int fluxHopTransfer = 200;
 
     private BitHopConfig(File configFile) {
