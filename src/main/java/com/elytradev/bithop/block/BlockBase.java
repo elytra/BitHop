@@ -1,9 +1,11 @@
 package com.elytradev.bithop.block;
 
 import com.elytradev.bithop.BitHop;
+import com.elytradev.bithop.util.BitHopConfig;
 import com.elytradev.bithop.util.C28n;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
@@ -49,7 +51,10 @@ public class BlockBase extends Block implements IBlockBase {
     @Override
     @SideOnly(Side.CLIENT)
     public void addInformation(ItemStack stack, World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
-        C28n.formatList(tooltip, "tooltip.bithop." + name);
+        if (GuiScreen.isShiftKeyDown()) {
+            C28n.formatList(tooltip, "tooltip.bithop." + name, BitHopConfig.fluxHopTransfer);
+        } else C28n.formatList(tooltip,"tooltip.bithop.showMore");
+
     }
 
     public Block toBlock() {

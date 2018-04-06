@@ -35,7 +35,7 @@ public class C28n {
     public static void formatList(List<String> out, String key, Object... format) {
         int i = 0;
         while (keyExists(key + "." + i)) {
-            out.add(C28n.format(key + "." + i));
+            out.add(C28n.format(key + "." + i, format));
             i++;
         }
     }
