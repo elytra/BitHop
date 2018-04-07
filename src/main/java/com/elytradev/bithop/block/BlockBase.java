@@ -53,7 +53,7 @@ public class BlockBase extends Block implements IBlockBase {
     public void addInformation(ItemStack stack, World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
         if (GuiScreen.isShiftKeyDown()) {
             C28n.formatList(tooltip, "tooltip.bithop." + name, BitHopConfig.fluxHopTransfer);
-        } else C28n.formatList(tooltip,"tooltip.bithop.showMore");
+        } else C28n.formatList(tooltip,"preview.bithop." + name);
 
     }
 
