@@ -65,7 +65,7 @@ class TileEntityFluxHop : TileEntity(), IContainerInventoryHolder, ITickable {
         }
     }
 
-    private fun getFirstFullSlot(): Int = (0 until CAPACITY).firstOrNull{inv.getCanExtract(it)} ?: -1
+    private fun getFirstFullSlot(): Int = (0 until CAPACITY).firstOrNull{inv.getCanExtract(it) && !inv.getStackInSlot(it).isEmpty} ?: -1
     private fun getFirstFullSlotCap(slotTotal: Int, cap: IItemHandler): Int = (0 until slotTotal).firstOrNull{!cap.getStackInSlot(it).isEmpty} ?: -1
 
     private fun getFirstEmptySlot(test: ItemStack): Int = (0 until CAPACITY).firstOrNull{inv.insertItem(it, test, true).isEmpty} ?: -1
