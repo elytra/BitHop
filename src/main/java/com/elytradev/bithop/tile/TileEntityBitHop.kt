@@ -43,7 +43,7 @@ class TileEntityBitHop : TileEntity(), IContainerInventoryHolder, ITickable {
 
     override fun getContainerInventory(): IInventory { return ValidatedInventoryView(inv) }
 
-    private fun getFirstFullSlot(): Int = (0 until CAPACITY).firstOrNull{inv.getCanExtract(it)} ?: -1
+    private fun getFirstFullSlot(): Int = (0 until CAPACITY).firstOrNull{inv.getCanExtract(it) && !inv.getStackInSlot(it).isEmpty} ?: -1
 
     private fun getFirstEmptySlot(slotTotal: Int, cap: IItemHandler, test: ItemStack): Int = (0 until slotTotal).firstOrNull{cap.insertItem(it, test, true).isEmpty()} ?: -1
 
