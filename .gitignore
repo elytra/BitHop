@@ -17,6 +17,7 @@
 .idea
 *.ipr
 *.iws
+/annotations
 
 # Sekrit files
 private.properties

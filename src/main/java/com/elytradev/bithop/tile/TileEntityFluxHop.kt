@@ -80,14 +80,14 @@ class TileEntityFluxHop: TileEntityBaseHop() {
         }
     }
 
-    override fun hasCapability(capability: Capability<*>, facing: EnumFacing?): Boolean {
+    override fun hasCapability(capability: Capability<*>?, facing: EnumFacing?): Boolean {
         return when (capability) {
             CapabilityEnergy.ENERGY -> true
             else -> super.hasCapability(capability, facing)
         }
     }
 
-    override fun <T : Any?> getCapability(capability: Capability<T>, facing: EnumFacing?): T? {
+    override fun <T : Any?> getCapability(capability: Capability<T>?, facing: EnumFacing?): T? {
         return when (capability) {
             CapabilityEnergy.ENERGY -> CapabilityEnergy.ENERGY.cast(energy) as T
             else -> super.getCapability(capability, facing)

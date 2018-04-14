@@ -14,10 +14,14 @@ import net.minecraft.util.EnumFacing
 import net.minecraft.util.ITickable
 import net.minecraftforge.common.capabilities.Capability
 import net.minecraftforge.items.CapabilityItemHandler
+import java.lang.annotation.ElementType
+import javax.annotation.Nullable
+import javax.annotation.meta.TypeQualifier
+import javax.annotation.meta.TypeQualifierDefault
 
 const val INV_TAG = "Inventory"
 
-abstract class TileEntityBaseHop : TileEntity(), IContainerInventoryHolder, ITickable {
+abstract class TileEntityBaseHop : KotlinTEWrapper(), IContainerInventoryHolder, ITickable {
     val inv by lazy { ConcreteItemStorage(CAPACITY).withName("$unlocalizedName.name") }
     var cooldown = 0
 
@@ -55,16 +59,18 @@ abstract class TileEntityBaseHop : TileEntity(), IContainerInventoryHolder, ITic
         inv.deserializeNBT(compound.getCompoundTag(INV_TAG))
     }
 
-    override fun hasCapability(capability: Capability<*>, facing: EnumFacing?): Boolean {
+    override fun hasCapability(capability: Capability<*>?, facing: EnumFacing?): Boolean {
         return when (capability) {
+            null -> false
             CapabilityItemHandler.ITEM_HANDLER_CAPABILITY -> true
             else -> super.hasCapability(capability, facing)
         }
     }
 
-    override fun <T : Any?> getCapability(capability: Capability<T>, facing: EnumFacing?): T? {
+    override fun <T : Any?> getCapability(capability: Capability<T>?, facing: EnumFacing?): T? {
         return when (capability) {
-            CapabilityItemHandler.ITEM_HANDLER_CAPABILITY -> ValidatedItemHandlerView(inv) as T
+            null -> null
+            CapabilityItemHandler.ITEM_HANDLER_CAPABILITY -> ValidatedItemHandlerView(inv) as? T
             else -> super.getCapability(capability, facing)
         }
     }
