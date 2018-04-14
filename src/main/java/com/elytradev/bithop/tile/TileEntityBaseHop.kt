@@ -17,7 +17,7 @@ import net.minecraftforge.items.CapabilityItemHandler
 
 const val INV_TAG = "Inventory"
 
-abstract class TEBaseHop : TileEntity(), IContainerInventoryHolder, ITickable {
+abstract class TileEntityBaseHop : TileEntity(), IContainerInventoryHolder, ITickable {
     val inv by lazy { ConcreteItemStorage(CAPACITY).withName("$unlocalizedName.name") }
     var cooldown = 0
 

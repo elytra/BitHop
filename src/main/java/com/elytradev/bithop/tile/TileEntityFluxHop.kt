@@ -15,7 +15,7 @@ import net.minecraftforge.energy.CapabilityEnergy
 const val ENERGY_STORAGE = 10_000
 const val ENERGY_TAG = "Energy"
 
-class TileEntityFluxHop: TEBaseHop() {
+class TileEntityFluxHop: TileEntityBaseHop() {
     override val CAPACITY get() = 3
     override val unlocalizedName get() = ModBlocks.FLUXHOP.unlocalizedName
 

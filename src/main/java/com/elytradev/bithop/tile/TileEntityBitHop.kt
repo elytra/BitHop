@@ -6,7 +6,7 @@ import com.elytradev.bithop.util.handleTransfer
 import net.minecraftforge.items.CapabilityItemHandler
 
 
-class TileEntityBitHop: TEBaseHop() {
+class TileEntityBitHop: TileEntityBaseHop() {
     override val CAPACITY get() = 5
     override val unlocalizedName get() = ModBlocks.BITHOP.unlocalizedName
 
