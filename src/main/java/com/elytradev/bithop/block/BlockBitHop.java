@@ -9,10 +9,14 @@ import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.InventoryHelper;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.items.CapabilityItemHandler;
+import net.minecraftforge.items.IItemHandler;
 
 import javax.annotation.Nullable;
 
@@ -98,5 +102,18 @@ public class BlockBitHop extends BlockTileEntity<TileEntityBitHop> {
     public static EnumFacing getFacing(int meta)
     {
         return EnumFacing.getFront(meta & 7);
+    }
+
+    @Override
+    public void breakBlock(World world, BlockPos pos, IBlockState state) {
+        TileEntityBitHop tile = getTileEntity(world, pos);
+        IItemHandler itemHandler = tile.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, EnumFacing.NORTH);
+        for(int i=0;i<5;i++) {
+            ItemStack stack = itemHandler.getStackInSlot(i);
+            if (!stack.isEmpty()) {
+                InventoryHelper.spawnItemStack(world, pos.getX(), pos.getY(), pos.getZ(), stack);
+            }
+        }
+        super.breakBlock(world, pos, state);
     }
 }
