@@ -29,7 +29,7 @@ public class BlockBase extends Block implements IBlockBase {
         setUnlocalizedName(name);
         setRegistryName(name);
 
-        this.setHarvestLevel("pickaxe", 1);
+        this.setHarvestLevel("pickaxe", 0);
         this.setHardness(1.4f);
         this.setResistance(8f); //actually quite susceptible to explosions
     }
