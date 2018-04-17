@@ -8,7 +8,7 @@
       "model": "bithop:screwhop"
     },
     "inventory": {
-      "model": "bithop:screwhop"
+      "model": "bithop:screwhop_item"
     },
     "facing=north": {
       "model": "bithop:screwhop", "y": 180

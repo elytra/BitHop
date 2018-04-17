@@ -31,14 +31,12 @@ public class BlockScrewHop extends BlockTileEntity<TileEntityScrewHop> {
     {
         public boolean apply(@Nullable EnumFacing p_apply_1_)
         {
-            return p_apply_1_ != EnumFacing.UP;
+            return p_apply_1_ != EnumFacing.UP && p_apply_1_ != EnumFacing.DOWN;
         }
     });
 
-    private static final AxisAlignedBB n = new AxisAlignedBB(4/16.0, 0.0D, 0.0, 12/16.0, 1.0, 1.0);
-    private static final AxisAlignedBB s = new AxisAlignedBB(4/16.0, 0.0D, 0.0, 12/16.0, 1.0, 1.0);
-    private static final AxisAlignedBB e = new AxisAlignedBB(0.0, 0.0D, 4/16.0, 1.0, 1.0, 12/16.0);
-    private static final AxisAlignedBB w = new AxisAlignedBB(0.0, 0.0D, 4/16.0, 1.0, 1.0, 12/16.0);
+    private static final AxisAlignedBB x = new AxisAlignedBB(4/16.0, 0.0D, 0.0D, 12/16.0, 1.0D, 1.0D);
+    private static final AxisAlignedBB z = new AxisAlignedBB(0.0D, 0.0D, 4/16.0, 1.0D, 1.0D, 12/16.0);
 
     public BlockScrewHop(Material material, String name) {
         super(material, name);
@@ -129,17 +127,17 @@ public class BlockScrewHop extends BlockTileEntity<TileEntityScrewHop> {
     public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos){
         switch(state.getValue(FACING)) {
             case NORTH:
-                return n;
+                return x;
             case SOUTH:
-                return s;
+                return x;
             case EAST:
-                return e;
+                return z;
             case WEST:
-                return w;
+                return z;
             case UP:
-                return n;
+                return x;
             case DOWN:
-                return n;
+                return x;
             default:
                 throw new AssertionError("Case missing for ScrewHop AABB"); //this should NEVER happen
         }
