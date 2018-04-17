@@ -35,10 +35,10 @@ public class BlockScrewHop extends BlockTileEntity<TileEntityScrewHop> {
         }
     });
 
-    private static final AxisAlignedBB n = new AxisAlignedBB(4/16.0, 0.0D, 0.0, 11/16.0, 1.0, 1.0);
-    private static final AxisAlignedBB s = new AxisAlignedBB(4/16.0, 0.0D, 0.0, 11/16.0, 1.0, 1.0);
-    private static final AxisAlignedBB e = new AxisAlignedBB(0.0, 0.0D, 4/16.0, 1.0, 1.0, 11/16.0);
-    private static final AxisAlignedBB w = new AxisAlignedBB(0.0, 0.0D, 4/16.0, 1.0, 1.0, 11/16.0);
+    private static final AxisAlignedBB n = new AxisAlignedBB(4/16.0, 0.0D, 0.0, 12/16.0, 1.0, 1.0);
+    private static final AxisAlignedBB s = new AxisAlignedBB(4/16.0, 0.0D, 0.0, 12/16.0, 1.0, 1.0);
+    private static final AxisAlignedBB e = new AxisAlignedBB(0.0, 0.0D, 4/16.0, 1.0, 1.0, 12/16.0);
+    private static final AxisAlignedBB w = new AxisAlignedBB(0.0, 0.0D, 4/16.0, 1.0, 1.0, 12/16.0);
 
     public BlockScrewHop(Material material, String name) {
         super(material, name);
@@ -136,6 +136,10 @@ public class BlockScrewHop extends BlockTileEntity<TileEntityScrewHop> {
                 return e;
             case WEST:
                 return w;
+            case UP:
+                return n;
+            case DOWN:
+                return n;
             default:
                 throw new AssertionError("Case missing for ScrewHop AABB"); //this should NEVER happen
         }
