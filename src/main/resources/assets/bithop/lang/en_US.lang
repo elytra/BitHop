@@ -3,6 +3,7 @@
 #blocks
 tile.bithop.name=BitHop
 tile.fluxhop.name=FluxHop
+tile.screwhop.name=ScrewHop
 
 #tooltips
 preview.bithop.bithop.0=Low-lag hoppers for chains!
@@ -17,6 +18,12 @@ tooltip.bithop.fluxhop.0=Transmit items and RF at the same time!
 tooltip.bithop.fluxhop.1=Pulls RF from any side and items from the top,
 tooltip.bithop.fluxhop.2=and sends them both in the same direction.
 tooltip.bithop.fluxhop.3=Transfers at an overall §a%s §7RF/t.
+preview.bithop.screwhop.0=Transfer items up and at an angle!
+preview.bithop.screwhop.1=Hold §dSHIFT §7for info.
+tooltip.bithop.screwhop.0=Transfer items up and at an angle!
+tooltip.bithop.screwhop.1=Pushes items into the inventory in front and above,
+tooltip.bithop.screwhop.2=and doesn't pull from inventories.
+tooltip.bithop.screwhop.3=Try a corkscrew setup.
 
 #messages
 

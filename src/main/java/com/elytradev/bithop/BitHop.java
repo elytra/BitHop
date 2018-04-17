@@ -2,8 +2,10 @@ package com.elytradev.bithop;
 
 import com.elytradev.bithop.container.BitHopContainer;
 import com.elytradev.bithop.container.FluxHopContainer;
+import com.elytradev.bithop.container.ScrewHopContainer;
 import com.elytradev.bithop.tile.TileEntityBitHop;
 import com.elytradev.bithop.tile.TileEntityFluxHop;
+import com.elytradev.bithop.tile.TileEntityScrewHop;
 import com.elytradev.bithop.util.BitHopConfig;
 import com.elytradev.concrete.inventory.IContainerInventoryHolder;
 import com.elytradev.concrete.inventory.gui.client.ConcreteGui;
@@ -61,6 +63,7 @@ public class BitHop {
         NetworkRegistry.INSTANCE.registerGuiHandler(this, new IGuiHandler() {
              public static final int BITHOP = 0;
              public static final int FLUXHOP = 1;
+             public static final int SCREWHOP = 2;
 
             @Nullable
             @Override
@@ -78,6 +81,12 @@ public class BitHop {
                                 (TileEntityFluxHop)world.getTileEntity(new BlockPos(x,y,z)));
                         fluxHopContainer.validate();
                         return fluxHopContainer;
+                    case SCREWHOP:
+                        ScrewHopContainer screwHopContainer = new ScrewHopContainer(
+                                player.inventory, ((IContainerInventoryHolder)world.getTileEntity(new BlockPos(x,y,z))).getContainerInventory(),
+                                (TileEntityScrewHop)world.getTileEntity(new BlockPos(x,y,z)));
+                        screwHopContainer.validate();
+                        return screwHopContainer;
                     default:
                         return null;
                 }
@@ -90,15 +99,20 @@ public class BitHop {
             public Object getClientGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
                 switch (ID) {
                      case BITHOP:
-                         BitHopContainer bitHopContainer = new BitHopContainer(
-                                 player.inventory, ((IContainerInventoryHolder)world.getTileEntity(new BlockPos(x,y,z))).getContainerInventory(),
-                                 (TileEntityBitHop) world.getTileEntity(new BlockPos(x,y,z)));
-                         return new ConcreteGui(bitHopContainer);
+                    BitHopContainer bitHopContainer = new BitHopContainer(
+                            player.inventory, ((IContainerInventoryHolder)world.getTileEntity(new BlockPos(x,y,z))).getContainerInventory(),
+                            (TileEntityBitHop) world.getTileEntity(new BlockPos(x,y,z)));
+                    return new ConcreteGui(bitHopContainer);
                     case FLUXHOP:
                         FluxHopContainer fluxHopContainer = new FluxHopContainer(
                                 player.inventory, ((IContainerInventoryHolder)world.getTileEntity(new BlockPos(x,y,z))).getContainerInventory(),
                                 (TileEntityFluxHop) world.getTileEntity(new BlockPos(x,y,z)));
                         return new ConcreteGui(fluxHopContainer);
+                    case SCREWHOP:
+                        ScrewHopContainer screwHopContainer = new ScrewHopContainer(
+                                player.inventory, ((IContainerInventoryHolder)world.getTileEntity(new BlockPos(x,y,z))).getContainerInventory(),
+                                (TileEntityScrewHop) world.getTileEntity(new BlockPos(x,y,z)));
+                        return new ConcreteGui(screwHopContainer);
                     default:
                         return null;
                 }
