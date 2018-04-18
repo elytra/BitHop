@@ -39,6 +39,11 @@ public class BitHopRecipes {
                 'c', new ItemStack(Blocks.CHEST),
                 'i', new ItemStack(Items.IRON_INGOT)
         ));
+        recipe(r, new ShapedOreRecipe(new ResourceLocation("bithop:blocks"), new ItemStack(ModBlocks.PULLHOP, 1),
+                "ici", "i i", " i ",
+                'c', new ItemStack(Blocks.CHEST),
+                'i', new ItemStack(Items.IRON_INGOT)
+        ));
 
     }
 
