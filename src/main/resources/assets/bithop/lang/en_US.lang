@@ -5,6 +5,7 @@ tile.bithop.name=BitHop
 tile.fluxhop.name=FluxHop
 tile.screwhop.name=ScrewHop
 tile.pullhop.name=PullHop
+tile.stickhop.name=StickHop
 
 #tooltips
 preview.bithop.bithop.0=Low-lag hoppers for chains!
@@ -15,6 +16,8 @@ preview.bithop.screwhop.0=Transfer items up and at an angle!
 preview.bithop.screwhop.1=Hold §dSHIFT §7for info.
 preview.bithop.pullhop.0=Low-lag hopper for extraction!
 preview.bithop.pullhop.1=Hold §dSHIFT §7for info.
+preview.bithop.stickhop.0=Keep items sticking around!
+preview.bithop.stickhop.1=Hold §dSHIFT §7for info.
 tooltip.bithop.bithop.0=Low-lag hoppers for chains!
 tooltip.bithop.bithop.1=Can't pull from chests or pick up from the ground,
 tooltip.bithop.bithop.2=so use a hopper at the start of the chain.
@@ -27,10 +30,13 @@ tooltip.bithop.screwhop.0=Transfer items up and at an angle!
 tooltip.bithop.screwhop.1=Pushes items into the inventory in front and above,
 tooltip.bithop.screwhop.2=and doesn't pull from inventories.
 tooltip.bithop.screwhop.3=Try a corkscrew setup.
-tooltip.bithop.pullhop.0=Low-lag hopper for extraction!
+tooltip.bithop.pullhop.0=Low-lag hoppers for extraction!
 tooltip.bithop.pullhop.1=Works just like a normal hopper,
 tooltip.bithop.pullhop.2=but doesn't interact with entities.
 tooltip.bithop.pullhop.3=Can't pick up items or put them in chest carts.
+tooltip.bithop.stickhop.0=Keep items sticking around!
+tooltip.bithop.stickhop.1=Keeps at least one item left in each slot,
+tooltip.bithop.stickhop.2=so perfect for sorting items!
 
 #messages
 

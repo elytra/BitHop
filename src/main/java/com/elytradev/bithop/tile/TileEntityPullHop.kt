@@ -17,13 +17,13 @@ class TileEntityPullHop: TileEntityBaseHop() {
 
     private fun handlePush() {
         val tile = world.getTileEntity(getPos().offset(BlockFluxHop.getFacing(blockMetadata))) ?: return
-        val capItem = tile.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, BlockFluxHop.getFacing(blockMetadata).opposite) ?: return
-        handleTransfer(inv, capItem)
+        val cap = tile.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, BlockFluxHop.getFacing(blockMetadata).opposite) ?: return
+        handleTransfer(inv, cap)
     }
 
     private fun handlePull() {
         val tile = world.getTileEntity(getPos().offset(EnumFacing.UP)) ?: return
-        val capItem = tile.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, EnumFacing.DOWN) ?: return
-        handleTransfer(capItem, inv)
+        val cap = tile.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, EnumFacing.DOWN) ?: return
+        handleTransfer(cap, inv)
     }
 }

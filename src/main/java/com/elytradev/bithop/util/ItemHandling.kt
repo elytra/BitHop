@@ -3,7 +3,7 @@ package com.elytradev.bithop.util
 import net.minecraft.item.ItemStack
 import net.minecraftforge.items.IItemHandler
 
-fun getFirstFullSlotCap(cap: IItemHandler, inv: IItemHandler): Int = (0 until cap.slots).firstOrNull{!cap.getStackInSlot(it).isEmpty && canInsertExtract(cap, inv, it)} ?: -1
+fun getFirstTransferrableSlotCap(from: IItemHandler, to: IItemHandler): Int = (0 until from.slots).firstOrNull{!from.getStackInSlot(it).isEmpty && canInsertExtract(from, to, it)} ?: -1
 fun getFirstEmptySlotCap(cap: IItemHandler, test: ItemStack): Int = (0 until cap.slots).firstOrNull{cap.insertItem(it, test, true).isEmpty} ?: -1
 
 fun canInsertExtract(from: IItemHandler, to: IItemHandler, slot: Int): Boolean {
@@ -20,7 +20,7 @@ fun canInsertExtract(from: IItemHandler, to: IItemHandler, slot: Int): Boolean {
 
 fun handleTransfer(from: IItemHandler, to: IItemHandler) {
 
-    val slotFull = getFirstFullSlotCap(from, to)
+    val slotFull = getFirstTransferrableSlotCap(from, to)
     if (slotFull == -1) return
     val itemExtract = from.extractItem(slotFull, 1, true)
     if (!itemExtract.isEmpty) {

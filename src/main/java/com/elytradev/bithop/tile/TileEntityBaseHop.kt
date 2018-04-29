@@ -1,23 +1,15 @@
 package com.elytradev.bithop.tile
 
-import com.elytradev.bithop.util.getFirstEmptySlotCap
-import com.elytradev.bithop.util.getFirstFullSlotCap
 import com.elytradev.concrete.inventory.ConcreteItemStorage
 import com.elytradev.concrete.inventory.IContainerInventoryHolder
 import com.elytradev.concrete.inventory.ValidatedInventoryView
 import com.elytradev.concrete.inventory.ValidatedItemHandlerView
 import net.minecraft.inventory.IInventory
-import net.minecraft.item.ItemStack
 import net.minecraft.nbt.NBTTagCompound
-import net.minecraft.tileentity.TileEntity
 import net.minecraft.util.EnumFacing
 import net.minecraft.util.ITickable
 import net.minecraftforge.common.capabilities.Capability
 import net.minecraftforge.items.CapabilityItemHandler
-import java.lang.annotation.ElementType
-import javax.annotation.Nullable
-import javax.annotation.meta.TypeQualifier
-import javax.annotation.meta.TypeQualifierDefault
 
 const val INV_TAG = "Inventory"
 

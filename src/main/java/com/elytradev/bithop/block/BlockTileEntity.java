@@ -1,6 +1,5 @@
 package com.elytradev.bithop.block;
 
-import com.elytradev.bithop.tile.TileEntityFluxHop;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.inventory.InventoryHelper;
