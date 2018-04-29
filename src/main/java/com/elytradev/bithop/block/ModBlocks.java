@@ -12,9 +12,10 @@ public class ModBlocks {
     public static final BlockFluxHop FLUXHOP = new BlockFluxHop(Material.IRON, "fluxhop");
     public static final BlockScrewHop SCREWHOP = new BlockScrewHop(Material.IRON, "screwhop");
     public static final BlockPullHop PULLHOP = new BlockPullHop(Material.IRON, "pullhop");
+    public static final BlockStickHop STICKHOP = new BlockStickHop(Material.IRON, "stickhop");
 
     public static IBlockBase[] allBlocks = {
-             BITHOP, FLUXHOP, SCREWHOP, PULLHOP
+             BITHOP, FLUXHOP, SCREWHOP, PULLHOP, STICKHOP
     };
 
     public static void register(IForgeRegistry<Block> registry) {
@@ -27,6 +28,7 @@ public class ModBlocks {
         GameRegistry.registerTileEntity(FLUXHOP.getTileEntityClass(), FLUXHOP.getRegistryName().toString());
         GameRegistry.registerTileEntity(SCREWHOP.getTileEntityClass(), SCREWHOP.getRegistryName().toString());
         GameRegistry.registerTileEntity(PULLHOP.getTileEntityClass(), PULLHOP.getRegistryName().toString());
+        GameRegistry.registerTileEntity(STICKHOP.getTileEntityClass(), STICKHOP.getRegistryName().toString());
 
     }
 

@@ -45,9 +45,6 @@ abstract class TileEntityBaseHop : KotlinTEWrapper(), IContainerInventoryHolder,
 
     final override fun getContainerInventory(): IInventory = containerInventoryView()
 
-    protected fun getFirstFullSlot(): Int = getFirstFullSlotCap(inv)
-    protected fun getFirstEmptySlot(test: ItemStack): Int = getFirstEmptySlotCap(inv, test)
-
     override fun writeToNBT(compound: NBTTagCompound): NBTTagCompound {
         val tag = super.writeToNBT(compound)
         tag.setTag(INV_TAG, inv.serializeNBT())

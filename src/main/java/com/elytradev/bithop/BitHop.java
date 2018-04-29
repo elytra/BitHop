@@ -1,13 +1,7 @@
 package com.elytradev.bithop;
 
-import com.elytradev.bithop.container.BitHopContainer;
-import com.elytradev.bithop.container.FluxHopContainer;
-import com.elytradev.bithop.container.PullHopContainer;
-import com.elytradev.bithop.container.ScrewHopContainer;
-import com.elytradev.bithop.tile.TileEntityBitHop;
-import com.elytradev.bithop.tile.TileEntityFluxHop;
-import com.elytradev.bithop.tile.TileEntityPullHop;
-import com.elytradev.bithop.tile.TileEntityScrewHop;
+import com.elytradev.bithop.container.*;
+import com.elytradev.bithop.tile.*;
 import com.elytradev.bithop.util.BitHopConfig;
 import com.elytradev.concrete.inventory.IContainerInventoryHolder;
 import com.elytradev.concrete.inventory.gui.client.ConcreteGui;
@@ -67,6 +61,7 @@ public class BitHop {
              public static final int FLUXHOP = 1;
              public static final int SCREWHOP = 2;
              public static final int PULLHOP = 3;
+             public static final int STICKHOP = 4;
 
             @Nullable
             @Override
@@ -96,6 +91,12 @@ public class BitHop {
                                 (TileEntityPullHop)world.getTileEntity(new BlockPos(x,y,z)));
                         pullHopContainer.validate();
                         return pullHopContainer;
+                    case STICKHOP:
+                        StickHopContainer stickHopContainer = new StickHopContainer(
+                                player.inventory, ((IContainerInventoryHolder)world.getTileEntity(new BlockPos(x,y,z))).getContainerInventory(),
+                                (TileEntityStickHop)world.getTileEntity(new BlockPos(x,y,z)));
+                        stickHopContainer.validate();
+                        return stickHopContainer;
                     default:
                         return null;
                 }
@@ -126,6 +127,11 @@ public class BitHop {
                                 player.inventory, ((IContainerInventoryHolder)world.getTileEntity(new BlockPos(x,y,z))).getContainerInventory(),
                                 (TileEntityPullHop) world.getTileEntity(new BlockPos(x,y,z)));
                         return new ConcreteGui(pullHopContainer);
+                    case STICKHOP:
+                        StickHopContainer stickHopContainer = new StickHopContainer(
+                                player.inventory, ((IContainerInventoryHolder)world.getTileEntity(new BlockPos(x,y,z))).getContainerInventory(),
+                                (TileEntityStickHop) world.getTileEntity(new BlockPos(x,y,z)));
+                        return new ConcreteGui(stickHopContainer);
                     default:
                         return null;
                 }
