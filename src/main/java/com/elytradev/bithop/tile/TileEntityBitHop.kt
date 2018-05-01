@@ -16,7 +16,7 @@ class TileEntityBitHop: TileEntityBaseHop() {
 
     override fun activateHopper() {
         val tile = world.getTileEntity(getPos().offset(BlockBitHop.getFacing(blockMetadata))) ?: return
-        val cap = tile.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, BlockBitHop.getFacing(blockMetadata).opposite)!!
+        val cap = tile.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, BlockBitHop.getFacing(blockMetadata).opposite) ?: return
         handleTransfer(inv, cap)
     }
 }

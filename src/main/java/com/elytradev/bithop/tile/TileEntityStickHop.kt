@@ -27,7 +27,7 @@ class TileEntityStickHop: TileEntityBaseHop() {
 
     fun handlePush() {
         val tile = world.getTileEntity(getPos().offset(BlockBitHop.getFacing(blockMetadata))) ?: return
-        val cap = tile.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, BlockBitHop.getFacing(blockMetadata).opposite)!!
+        val cap = tile.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, BlockBitHop.getFacing(blockMetadata).opposite) ?: return
         val slotFull = getFirstTransferrableSlotSticky(cap)
         if (slotFull == -1) return
         val itemExtract = inv.extractItem(slotFull, 1, true)
