@@ -13,7 +13,6 @@ import net.minecraft.nbt.NBTTagCompound
 import net.minecraftforge.energy.CapabilityEnergy
 
 const val ENERGY_STORAGE = 10_000
-const val ENERGY_TAG = "Energy"
 
 class TileEntityFluxHop: TileEntityBaseHop() {
     override val CAPACITY get() = 3
@@ -28,14 +27,14 @@ class TileEntityFluxHop: TileEntityBaseHop() {
     override fun writeToNBT(compound: NBTTagCompound): NBTTagCompound {
         val tag = super.writeToNBT(compound)
         CapabilityEnergy.ENERGY.storage.writeNBT(CapabilityEnergy.ENERGY, energy, null) ?.let {
-            tag.setTag(ENERGY_TAG, it)
+            tag.setTag("Energy", it)
         }
         return tag
     }
 
     override fun readFromNBT(compound: NBTTagCompound) {
         super.readFromNBT(compound)
-        compound.getTag(ENERGY_TAG) ?.let {
+        compound.getTag("Energy") ?.let {
             try {
                 CapabilityEnergy.ENERGY.storage.readNBT(CapabilityEnergy.ENERGY, energy, null, it)
             } catch (t: Throwable) { }
