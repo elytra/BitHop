@@ -54,7 +54,10 @@ public class ItemBase extends Item {
     @Override
     @SideOnly(Side.CLIENT)
     public void addInformation(ItemStack stack, World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
-        C28n.formatList(tooltip, "tooltip.bb." + name);
+        if (GuiScreen.isShiftKeyDown()) {
+            C28n.formatList(tooltip, "tooltip.bithop." + name, BitHopConfig.fluxHopTransfer);
+        } else C28n.formatList(tooltip,"preview.bithop." + name);
+
     }
 
     public void initOreDict() {
