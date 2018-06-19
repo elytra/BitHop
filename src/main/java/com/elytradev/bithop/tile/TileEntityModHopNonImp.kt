@@ -1,7 +1,9 @@
 package com.elytradev.bithop.tile
 
+import com.elytradev.bithop.block.BlockBitHop
 import com.elytradev.bithop.block.BlockModHopNonImp
 import com.elytradev.bithop.block.ModBlocks
+import com.elytradev.bithop.block.getFacing
 import com.elytradev.bithop.util.*
 import net.minecraft.nbt.NBTTagCompound
 import net.minecraft.util.EnumFacing
@@ -16,10 +18,10 @@ class TileEntityModHopNonImp: TileEntityBaseHop() {
      */
 
     override val CAPACITY get() = 5
-    override val unlocalizedName get() = ModBlocks.BITHOP.unlocalizedName
+    override val unlocalizedName get() = BlockBitHop.unlocalizedName
 
-    val pushFacing: EnumFacing = BlockModHopNonImp.getFacing(blockMetadata)
-    var pullFacing: EnumFacing = BlockModHopNonImp.getFacing(blockMetadata)
+    val pushFacing: EnumFacing = getFacing(blockMetadata)
+    var pullFacing: EnumFacing = getFacing(blockMetadata)
     var hasPull: Boolean = false
     var hasFlux: Boolean = false
     var hasStick: Boolean = false

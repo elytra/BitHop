@@ -13,13 +13,12 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import org.jetbrains.annotations.Nullable;
 
 public class BlockModHopNonImp extends BlockTileEntity<TileEntityModHopNonImp> {
     /*
     NOTE: do not implement, just sketching out the bithop itself for v2.0
      */
-
-    protected String name;
 
     public static final PropertyDirection FACING = PropertyDirection.create("pushFacing");
     public static final PropertyDirection PULL_FACE = PropertyDirection.create("pullFacing");
@@ -103,7 +102,7 @@ public class BlockModHopNonImp extends BlockTileEntity<TileEntityModHopNonImp> {
         return this.getDefaultState().withProperty(FACING, enumfacing);
     }
 
-    public static EnumFacing getFacing(int meta)
+    private static EnumFacing getFacing(int meta)
     {
         return EnumFacing.getFront(meta & 7);
     }

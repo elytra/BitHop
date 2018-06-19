@@ -1,7 +1,9 @@
 package com.elytradev.bithop.tile
 
+import com.elytradev.bithop.block.BlockBitHop
 import com.elytradev.bithop.block.BlockStickHop
 import com.elytradev.bithop.block.ModBlocks
+import com.elytradev.bithop.block.getFacing
 import com.elytradev.bithop.util.canInsertExtract
 import com.elytradev.bithop.util.getFirstEmptySlotCap
 import com.elytradev.bithop.util.handleTransfer
@@ -12,7 +14,7 @@ import net.minecraftforge.items.IItemHandler
 
 class TileEntityStickHop: TileEntityBaseHop() {
     override val CAPACITY get() = 5
-    override val unlocalizedName get() = ModBlocks.BITHOP.unlocalizedName
+    override val unlocalizedName get() = BlockBitHop.unlocalizedName
 
     init {
         inv.listen(this::markDirty)
@@ -26,8 +28,8 @@ class TileEntityStickHop: TileEntityBaseHop() {
     fun getFirstTransferrableSlotSticky(to: IItemHandler): Int = (0 until inv.slots).firstOrNull{!inv.getStackInSlot(it).isEmpty && inv.getStackInSlot(it).count != 1 && canInsertExtract(inv, to, it)} ?: -1
 
     fun handlePush() {
-        val tile = world.getTileEntity(getPos().offset(BlockStickHop.getFacing(blockMetadata))) ?: return
-        val cap = tile.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, BlockStickHop.getFacing(blockMetadata).opposite) ?: return
+        val tile = world.getTileEntity(getPos().offset(getFacing(blockMetadata))) ?: return
+        val cap = tile.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, getFacing(blockMetadata).opposite) ?: return
         val slotFull = getFirstTransferrableSlotSticky(cap)
         if (slotFull == -1) return
         val itemExtract = inv.extractItem(slotFull, 1, true)

@@ -2,6 +2,7 @@ package com.elytradev.bithop.tile
 
 import com.elytradev.bithop.block.BlockFluxHop
 import com.elytradev.bithop.block.ModBlocks
+import com.elytradev.bithop.block.getFacing
 import com.elytradev.bithop.util.BitHopConfig
 import com.elytradev.bithop.util.ObservableEnergyStorage
 import com.elytradev.bithop.util.handleTransfer
@@ -58,8 +59,8 @@ class TileEntityFluxHop: TileEntityBaseHop() {
     }
 
     private fun handlePush() {
-        val tile = world.getTileEntity(getPos().offset(BlockFluxHop.getFacing(blockMetadata))) ?: return
-        val capItem = tile.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, BlockFluxHop.getFacing(blockMetadata).opposite) ?: return
+        val tile = world.getTileEntity(getPos().offset(getFacing(blockMetadata))) ?: return
+        val capItem = tile.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, getFacing(blockMetadata).opposite) ?: return
         handleTransfer(inv, capItem)
     }
 
@@ -70,8 +71,8 @@ class TileEntityFluxHop: TileEntityBaseHop() {
     }
 
     private fun handleEnergy() {
-        val tile = world.getTileEntity(getPos().offset(BlockFluxHop.getFacing(blockMetadata))) ?: return
-        val capEnergy = tile.getCapability(CapabilityEnergy.ENERGY, BlockFluxHop.getFacing(blockMetadata).opposite) ?: return
+        val tile = world.getTileEntity(getPos().offset(getFacing(blockMetadata))) ?: return
+        val capEnergy = tile.getCapability(CapabilityEnergy.ENERGY, getFacing(blockMetadata).opposite) ?: return
         val energyExtract = energy.extractEnergy(8*BitHopConfig.fluxHopTransfer, true)
         if (energyExtract != 0) {
             val qty = capEnergy.receiveEnergy(energyExtract, false)

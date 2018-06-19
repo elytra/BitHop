@@ -1,39 +1,23 @@
 package com.elytradev.bithop.block;
 
 import com.elytradev.bithop.BitHop;
-import com.elytradev.bithop.tile.TileEntityBitHop;
 import com.elytradev.bithop.tile.TileEntityScrewHop;
 import com.google.common.base.Predicate;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.properties.PropertyDirection;
-import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
+import org.jetbrains.annotations.NotNull;
 
-import javax.annotation.Nullable;
-
-public class BlockScrewHop extends BlockTileEntity<TileEntityScrewHop> {
-
-    protected String name;
-
-    public static final PropertyDirection FACING = PropertyDirection.create("facing", new Predicate<EnumFacing>()
-    {
-        public boolean apply(@Nullable EnumFacing p_apply_1_)
-        {
-            return p_apply_1_ != EnumFacing.UP && p_apply_1_ != EnumFacing.DOWN;
-        }
-    });
+public class BlockScrewHop extends BlockHopTE<TileEntityScrewHop> {
 
     private static final AxisAlignedBB x = new AxisAlignedBB(4/16.0, 0.0D, 0.0D, 12/16.0, 1.0D, 1.0D);
     private static final AxisAlignedBB z = new AxisAlignedBB(0.0D, 0.0D, 4/16.0, 1.0D, 1.0D, 12/16.0);
@@ -43,6 +27,11 @@ public class BlockScrewHop extends BlockTileEntity<TileEntityScrewHop> {
         this.setDefaultState(blockState.getBaseState());
 
         setCreativeTab(BitHop.creativeTab);
+    }
+
+    @Override
+    public int getGuiId() {
+        return 2;
     }
 
     @Override
@@ -56,43 +45,6 @@ public class BlockScrewHop extends BlockTileEntity<TileEntityScrewHop> {
     }
 
     @Override
-    public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
-        if(!world.isRemote && !player.isSneaking()) {
-            player.openGui(BitHop.instance, 2, world, pos.getX(), pos.getY(), pos.getZ());
-        }
-        return true;
-    }
-
-    @Override
-    public BlockStateContainer createBlockState(){
-        return new BlockStateContainer(this, FACING);
-    }
-
-    @Override
-    public boolean isOpaqueCube(IBlockState state) {
-        return false;
-    }
-
-    @Override
-    public boolean isFullCube(IBlockState state)
-    {
-        return false;
-    }
-
-    public int getMetaFromState(IBlockState state)
-    {
-        int i = 0;
-        i = i | ((EnumFacing)state.getValue(FACING)).getIndex();
-        i |= 8;
-
-        return i;
-    }
-
-    public IBlockState getStateFromMeta(int meta)
-    {
-        return this.getDefaultState().withProperty(FACING, getFacing(meta));
-    }
-
     public IBlockState getStateForPlacement(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer)
     {
         EnumFacing enumfacing = facing.getOpposite();
@@ -102,12 +54,7 @@ public class BlockScrewHop extends BlockTileEntity<TileEntityScrewHop> {
             enumfacing = placer.getHorizontalFacing();
         }
 
-        return this.getDefaultState().withProperty(FACING, enumfacing);
-    }
-
-    public static EnumFacing getFacing(int meta)
-    {
-        return EnumFacing.getFront(meta & 7);
+        return this.getDefaultState().withProperty(getFACING(), enumfacing);
     }
 
     @Override
@@ -125,7 +72,7 @@ public class BlockScrewHop extends BlockTileEntity<TileEntityScrewHop> {
 
     @Override
     public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos){
-        switch(state.getValue(FACING)) {
+        switch(state.getValue(getFACING())) {
             case NORTH:
                 return x;
             case SOUTH:
@@ -141,5 +88,11 @@ public class BlockScrewHop extends BlockTileEntity<TileEntityScrewHop> {
             default:
                 throw new AssertionError("Case missing for ScrewHop AABB"); //this should NEVER happen
         }
+    }
+
+    @NotNull
+    @Override
+    public Predicate<EnumFacing> getFacingFilter() {
+        return FacingFiltersKt.getScrewHopFacingFilter();
     }
 }

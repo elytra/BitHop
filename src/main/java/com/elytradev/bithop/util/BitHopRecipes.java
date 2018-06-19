@@ -1,5 +1,6 @@
 package com.elytradev.bithop.util;
 
+import com.elytradev.bithop.block.BlockBitHop;
 import com.elytradev.bithop.block.ModBlocks;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -20,7 +21,7 @@ public class BitHopRecipes {
 
         // Crafting bench recipes
 
-         recipe(r, new ShapedOreRecipe(new ResourceLocation("bithop:blocks"), new ItemStack(ModBlocks.BITHOP, 2),
+         recipe(r, new ShapedOreRecipe(new ResourceLocation("bithop:blocks"), new ItemStack(BlockBitHop.INSTANCE, 2),
                  "ici", " i ",
                  'c', new ItemStack(Blocks.CHEST),
                  'i', new ItemStack(Items.IRON_INGOT)
