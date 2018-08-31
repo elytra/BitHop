@@ -44,7 +44,7 @@ public class BlockStickHop extends BlockHopTE<TileEntityStickHop> {
 
     @NotNull
     @Override
-    public Predicate<EnumFacing> getFacingFilter() {
+    public Predicate<EnumFacing> facingFilter() {
         return FacingFiltersKt.getNoUpFacingFilter();
     }
 }

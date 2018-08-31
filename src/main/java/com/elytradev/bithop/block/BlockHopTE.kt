@@ -18,12 +18,12 @@ import net.minecraft.world.World
 abstract class BlockHopTE<TE: TileEntity>(material: Material, name: String):
         BlockTileEntity<TE>(material, name) {
     abstract val guiId: Int
-    abstract val facingFilter: Predicate<EnumFacing>
+    abstract fun facingFilter(): Predicate<EnumFacing>
     lateinit var FACING: PropertyDirection
 
     init {
         this.defaultState = blockState.baseState
-        BlockBitHop.setCreativeTab(BitHop.creativeTab)
+        setCreativeTab(BitHop.creativeTab)
     }
 
     final override fun onBlockActivated(world: World, pos: BlockPos?, state: IBlockState?, player: EntityPlayer?, hand: EnumHand?, side: EnumFacing?, hitX: Float, hitY: Float, hitZ: Float): Boolean {
@@ -34,7 +34,7 @@ abstract class BlockHopTE<TE: TileEntity>(material: Material, name: String):
     }
 
     final override fun createBlockState(): BlockStateContainer {
-        FACING = PropertyDirection.create("facing", facingFilter)
+        FACING = PropertyDirection.create("facing", facingFilter())
         return BlockStateContainer(this, FACING)
     }
 
@@ -43,7 +43,7 @@ abstract class BlockHopTE<TE: TileEntity>(material: Material, name: String):
     final override fun isFullCube(state: IBlockState?) = false
 
     final override fun getMetaFromState(state: IBlockState): Int =
-        (state.getValue(BlockBitHop.FACING) as EnumFacing).index or 8
+        (state.getValue(FACING) as EnumFacing).index or 8
 
     final override fun getStateFromMeta(meta: Int): IBlockState {
         return defaultState.withProperty(FACING, getFacing(meta))
@@ -52,7 +52,7 @@ abstract class BlockHopTE<TE: TileEntity>(material: Material, name: String):
     override fun getStateForPlacement(worldIn: World?, pos: BlockPos?, facing: EnumFacing, hitX: Float, hitY: Float, hitZ: Float, meta: Int, placer: EntityLivingBase?): IBlockState {
         val enumfacing = facing.opposite
         val filtered = if (enumfacing == EnumFacing.UP) {EnumFacing.DOWN} else enumfacing
-        return this.defaultState.withProperty(BlockBitHop.FACING, filtered)
+        return this.defaultState.withProperty(FACING, filtered)
     }
 }
 

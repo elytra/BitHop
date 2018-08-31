@@ -35,7 +35,7 @@ public class BlockPullHop extends BlockHopTE<TileEntityPullHop> {
 
     @NotNull
     @Override
-    public Predicate<EnumFacing> getFacingFilter() {
+    public Predicate<EnumFacing> facingFilter() {
         return FacingFiltersKt.getNoUpFacingFilter();
     }
 }

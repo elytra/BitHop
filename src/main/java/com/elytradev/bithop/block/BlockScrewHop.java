@@ -92,7 +92,7 @@ public class BlockScrewHop extends BlockHopTE<TileEntityScrewHop> {
 
     @NotNull
     @Override
-    public Predicate<EnumFacing> getFacingFilter() {
+    public Predicate<EnumFacing> facingFilter() {
         return FacingFiltersKt.getScrewHopFacingFilter();
     }
 }

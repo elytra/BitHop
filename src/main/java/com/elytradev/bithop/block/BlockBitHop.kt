@@ -11,5 +11,5 @@ object BlockBitHop: BlockHopTE<TileEntityBitHop>(Material.IRON, "bithop") {
     override fun createTileEntity(world: World, state: IBlockState) = TileEntityBitHop()
 
     override val guiId = 0
-    override val facingFilter = noUpFacingFilter
+    override fun facingFilter() = noUpFacingFilter
 }

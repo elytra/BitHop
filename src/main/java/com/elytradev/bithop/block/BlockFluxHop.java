@@ -35,7 +35,7 @@ public class BlockFluxHop extends BlockHopTE<TileEntityFluxHop> {
 
     @NotNull
     @Override
-    public Predicate<EnumFacing> getFacingFilter() {
+    public Predicate<EnumFacing> facingFilter() {
         return FacingFiltersKt.getNoUpFacingFilter();
     }
 }
