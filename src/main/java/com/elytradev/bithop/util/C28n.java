@@ -23,14 +23,15 @@ public class C28n {
         return keyExists(key) ? Optional.of(BitHop.proxy.i18nFormat(key, format)) : Optional.absent();
     }
 
-    public static String formatPlural(String key, long amount) {
-        PluralRules pr = BitHop.proxy.getPluralRules();
-        String s = pr.select(amount);
-        if (keyExists(key+"."+s)) {
-            return format(key+"."+s, amount);
-        }
-        return format(key+".other", amount);
-    }
+    // TODO: is this broken?
+//    public static String formatPlural(String key, long amount) {
+//        PluralRules pr = BitHop.proxy.getPluralRules();
+//        String s = pr.select(amount);
+//        if (keyExists(key+"."+s)) {
+//            return format(key+"."+s, amount);
+//        }
+//        return format(key+".other", amount);
+//    }
 
     public static void formatList(List<String> out, String key, Object... format) {
         int i = 0;
